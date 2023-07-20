@@ -56,16 +56,27 @@ df_accessories = pd.DataFrame({
 # Erstellen Sie ein PDF-Dokument
 with PdfPages('firearms_and_accessories.pdf') as pdf:
     # Erstellen Sie eine Tabelle aus dem Firearms DataFrame
-    fig, axs = plt.subplots(2, 1, figsize=(11.7, 8.3)) # Setzen Sie die Größe des Plots auf A4 Querformat
+    fig, axs = plt.subplots(2, 1, figsize=(11.7, 8.3))
     fig.suptitle('Waffensammlung', fontsize=14, fontweight='bold')
+
+    # Firearms-Tabelle
     axs[0].axis('tight')
     axs[0].axis('off')
-    axs[0].table(cellText=df_firearms.values, colLabels=df_firearms.columns, cellLoc = 'left', loc='center')
+    table_firearms = axs[0].table(cellText=df_firearms.values, colLabels=df_firearms.columns, cellLoc='center', loc='center')
+    table_firearms.auto_set_font_size(False)
+    table_firearms.set_fontsize(10)
+    table_firearms.scale(1, 1.5)  # Ändere die Zellenabstände hier
 
-    # Erstellen Sie eine Tabelle aus dem Accessories DataFrame
+    # Accessories-Tabelle
     axs[1].axis('tight')
     axs[1].axis('off')
-    axs[1].table(cellText=df_accessories.values, colLabels=df_accessories.columns, cellLoc = 'left', loc='center')
+    table_accessories = axs[1].table(cellText=df_accessories.values, colLabels=df_accessories.columns, cellLoc='center', loc='center')
+    table_accessories.auto_set_font_size(False)
+    table_accessories.set_fontsize(10)
+    table_accessories.scale(1, 1.5)  # Ändere die Zellenabstände hier
+
+    # Platzieren Sie den Titel weiter oben und fügen Seitenränder hinzu
+    plt.subplots_adjust(top=0.85, bottom=0.1, left=0.1, right=0.9, hspace=0.4)  # Passe die Werte nach Bedarf an
 
     # Speichern Sie die Tabelle als PDF
-    pdf.savefig(fig, bbox_inches='tight')
+    pdf.savefig(fig)
